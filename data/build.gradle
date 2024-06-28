@@ -1,0 +1,63 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+}
+
+android {
+    namespace 'com.codelytical.data'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://noty-app.onrender.com/api/\""
+        }
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://noty-app.onrender.com/api/\""
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+
+    api libs.androidx.room.runtime
+    ksp libs.androidx.room.compiler
+    api libs.androidx.room.ktx
+
+    // JavaX Inject
+    implementation libs.javax.inject
+
+    // Retrofit
+    api libs.retrofit
+
+    // Moshi Retrofit Converter
+    api libs.converter.moshi
+    // Moshi
+    api libs.moshi.kotlin
+    api libs.moshi.adapters
+
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+}
